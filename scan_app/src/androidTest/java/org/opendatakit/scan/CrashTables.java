@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.*;
+import android.util.Log;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,12 +30,16 @@ public class CrashTables {
 
   @Test
   public void crashBy_fragmentNullPtr() throws IOException, RemoteException {
+    int counter = 1;
+
     while (true) {
+      Log.e("crash_tables", "run: " + counter++);
+
       startApp(mDevice, "org.opendatakit.tables");
 
       assertThat(
           "Tables cannot be started or crashed",
-          mDevice.wait(Until.findObject(By.desc("Web View")), 10000) != null,
+          mDevice.wait(Until.hasObject(By.desc("Web View")), APP_START_TIMEOUT + APP_INIT_TIMEOUT),
           is(true));
 
       closeApp(mDevice, "ODK Tables", "org.opendatakit.tables", 2);
@@ -52,14 +57,11 @@ public class CrashTables {
     final Intent intent = context.getPackageManager().getLaunchIntentForPackage(pkgName);
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
     context.startActivity(intent);
-
-    //wait for app to start
-    mDevice.wait(Until.hasObject(By.pkg(pkgName).depth(0)), APP_START_TIMEOUT);
   }
 
   /**
    * WARNING:
-   * This might not work on all versions of Android
+   * Method 1 might not work on all versions of Android
    *
    * appName is name of app displayed on device, for example "ODK Tables"
    */
