@@ -42,7 +42,6 @@ android {
         }
 
         uitest {
-            minSdkVersion 18
         }
     }
 
@@ -86,12 +85,12 @@ dependencies {
     } else {
         demoCompile(group: groupId, name: libraryDemoArtifactName, classifier: demoRelease,
                 version: latestVersion, ext: 'aar')
-        masterCompile(group: groupId, name: libraryMasterArtifactName, classifier: masterRelease,
+        masterCompile(group: groupId, name: libraryDemoArtifactName, classifier: demoRelease,
                 version: latestVersion, ext: 'aar')
         snapshotCompile(group: groupId, name: librarySnapshotArtifactName,
                 classifier: snapshotRelease, version: latestVersion, ext: 'aar')
-        uitestCompile(group: groupId, name: librarySnapshotArtifactName, classifier: uitestRelease,
-                version: latestVersion, ext: 'aar')
+        uitestCompile(group: groupId, name: librarySnapshotArtifactName,
+                      classifier: snapshotRelease, version: latestVersion, ext: 'aar')
     }
 
     if (commonProjectPath.exists() && gradle.useLocal) { // Local project is favoured
@@ -99,12 +98,12 @@ dependencies {
     } else {
         demoCompile(group: groupId, name: commonDemoArtifactName, classifier: demoRelease,
                 version: latestVersion, ext: 'aar')
-        masterCompile(group: groupId, name: commonMasterArtifactName, classifier: masterRelease,
+        masterCompile(group: groupId, name: commonDemoArtifactName, classifier: demoRelease,
                 version: latestVersion, ext: 'aar')
         snapshotCompile(group: groupId, name: commonSnapshotArtifactName,
                 classifier: snapshotRelease, version: latestVersion, ext: 'aar')
-        uitestCompile(group: groupId, name: commonSnapshotArtifactName, classifier: uitestRelease,
-                version: latestVersion, ext: 'aar')
+        uitestCompile(group: groupId, name: commonSnapshotArtifactName,
+                      classifier: snapshotRelease, version: latestVersion, ext: 'aar')
     }
 
     androidTestCompile 'junit:junit:4.12'
@@ -116,8 +115,4 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
     androidTestCompile 'com.android.support:support-v4:23.1.0'
-
-    //for UI Automator
-    androidTestUitestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
-    androidTestUitestCompile 'org.hamcrest:hamcrest-integration:1.3'
 }
